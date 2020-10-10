@@ -5,7 +5,6 @@ class ShowTodos extends Component {
     constructor () {
         super () 
         this.state = {
-            todos: null,
             showAll: true,
             showCompleted: false,
             showOpen: false
@@ -44,7 +43,7 @@ class ShowTodos extends Component {
 
     todo = (todo) => (
         <div key={todo._id}>
-            <div  style={{ textDecorationLine: todo.completed? 'line-through' : 'none' }}>{todo.task}</div>
+            <div  style={{ textDecorationLine: todo.completed ? 'line-through' : 'none' }}>{todo.task}</div>
             {!todo.completed && <button onClick={() => this.onEditTodo(todo._id)}>Complete</button>}
         </div>
     )
@@ -58,13 +57,13 @@ class ShowTodos extends Component {
                 <button onClick={this.showCompeted}>Completed Tasks</button>
                 <button onClick={this.showOpen}>Open Tasks</button>
                 {todos && todos.data.length === 0 && <p>No Tasks Recored</p>}
-                {todos && showAll && todos.data.map(todo => (
+                {todos && showAll && todos.data.reverse().map(todo => (
                     this.todo(todo)
                 ))}
-                 {todos && showCompleted && todos.data.filter(todo => todo.completed === true).map(todo => (
+                 {todos && showCompleted && todos.data.filter(todo => todo.completed === true).reverse().map(todo => (
                     this.todo(todo)
                 ))}
-                 {todos && showOpen && todos.data.filter(todo => todo.completed === false).map(todo => (
+                 {todos && showOpen && todos.data.filter(todo => todo.completed === false).reverse().map(todo => (
                     this.todo(todo)
                 ))}
             </div>
