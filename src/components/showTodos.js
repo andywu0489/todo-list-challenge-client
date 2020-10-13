@@ -1,74 +1,63 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import { editTodo } from '../api'
 
-class ShowTodos extends Component {
-    constructor () {
-        super () 
-        this.state = {
-            showAll: true,
-            showCompleted: false,
-            showOpen: false
-        }
+function ShowTodos (props) {
+
+    console.log('props', props.todos)
+    const { todos, refreshList} = props
+
+    const [showAll, setShowAll] = useState(true)
+    const [showCompleted, setShowCompleted] = useState(false)
+    const [showOpen, setShowOpen] = useState(false)
+
+    const onShowAll = () => {
+        setShowAll(true)
+        setShowCompleted(false)
+        setShowOpen(false)
     }
 
-    showAll = () => {
-        this.setState({
-            showAll: true,
-            showCompleted: false,
-            showOpen: false
-        })
+    const onShowCompeted = () => {
+        setShowAll(false)
+        setShowCompleted(true)
+        setShowOpen(false)
     }
 
-    showCompeted = () => {
-        this.setState({
-            showAll: false,
-            showCompleted: true,
-            showOpen: false
-        })
+    const onShowOpen = () => {
+        setShowAll(false)
+        setShowCompleted(false)
+        setShowOpen(true)
     }
 
-    showOpen = () => {
-        this.setState({
-            showAll: false,
-            showCompleted: false,
-            showOpen: true
-        })
-    }
-
-    onEditTodo = (id) => {
-        const data = { 'completed': true}
+    const onEditTodo = (id) => {
+        const data = {'completed': true}
         editTodo(id, data)
-        .then(this.props.refreshList())
+        refreshList()
     }
 
-    todo = (todo) => (
-        <div key={todo._id}>
+    const todoTemplate = (todo) => (
+        <div className="todo-item" key={todo._id}>
             <div  style={{ textDecorationLine: todo.completed ? 'line-through' : 'none' }}>{todo.task}</div>
-            {!todo.completed && <button onClick={() => this.onEditTodo(todo._id)}>Complete</button>}
+            {!todo.completed && <button onClick={() => onEditTodo(todo._id)}>Complete</button>}
         </div>
     )
 
-    render () {
-        const { showAll, showCompleted, showOpen } = this.state
-        const { todos } = this.props
         return (
             <div >
-                <button onClick={this.showAll}>All Tasks</button>
-                <button onClick={this.showCompeted}>Completed Tasks</button>
-                <button onClick={this.showOpen}>Open Tasks</button>
+                <button onClick={onShowAll}>All Tasks</button>
+                <button onClick={onShowCompeted}>Completed Tasks</button>
+                <button onClick={onShowOpen}>Open Tasks</button>
                 {todos && todos.data.length === 0 && <p>No Tasks Recored</p>}
                 {todos && showAll && todos.data.reverse().map(todo => (
-                    this.todo(todo)
+                    todoTemplate(todo)
                 ))}
                  {todos && showCompleted && todos.data.filter(todo => todo.completed === true).reverse().map(todo => (
-                    this.todo(todo)
+                    todoTemplate(todo)
                 ))}
                  {todos && showOpen && todos.data.filter(todo => todo.completed === false).reverse().map(todo => (
-                    this.todo(todo)
+                    todoTemplate(todo)
                 ))}
             </div>
         )
-    }
 }
 
 export default ShowTodos

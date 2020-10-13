@@ -4,7 +4,7 @@ export const createTodo = (todo) => {
     return axios({
         url: 'http://localhost:4000/todos/',
         method: 'POST',
-        data: todo
+        data: {task: todo}
     })
 }
 

@@ -1,49 +1,40 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect } from 'react'
 import {createTodo, getTodos}from '../api'
 import ShowTodos from './showTodos'
 
-class CreateTodo extends Component {
-    constructor () {
-        super()
-        this.state ={
-            task: '',
-            completed: false,
-            todos: ''
-        }
-    }
+function CreateTodo () {
+    const [task, setTask] = useState('')
+    const [todos, setTodos] = useState('')
 
-    refreshList = () => {
+    const refreshList = () => {
         getTodos()
         .then(response => {
-            this.setState({todos: response})})
-    }
+            console.log(response)
+            setTodos(response)
+    })}
 
-    componentDidMount = () => {
-        this.refreshList()
-    }
+    useEffect(() => {
+        refreshList()
+    }, []
+    )
     
-    handleChange = event => this.setState({
-        [event.target.name]: event.target.value
-      })
+    const handleChange = event => setTask(
+        event.target.value
+      )
 
-    onCreateTodo = (event) => {
+    const onCreateTodo = (event) => {
         event.preventDefault()
-        createTodo(this.state)
+        console.log(task)
+        createTodo(task)
             .then(() => {
-               this.refreshList()
-                this.setState({
-                    task: ''
-                })
+               refreshList()
+                setTask('')
             })
             .catch(() => {
-                this.setState({
-                    task:''
-                })
+                setTask('')
             })
     }
 
-    render () {
-        const {task, todos} = this.state
         return (
             <div className='form'>
                 <input
@@ -51,13 +42,12 @@ class CreateTodo extends Component {
                 value={task}
                 type='text'
                 placeholder='Task'
-                onChange={this.handleChange}
+                onChange={handleChange}
                 />
-                <button onClick={this.onCreateTodo}>Submit</button>
-                <div><ShowTodos todos={todos} refreshList={this.refreshList}/></div>
+                <button onClick={onCreateTodo}>Submit</button>
+                <div><ShowTodos todos={todos} refreshList={refreshList}/></div>
             </div>
         )
-    }
 }
 
 export default CreateTodo
