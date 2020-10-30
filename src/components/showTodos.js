@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { editTodo } from '../api'
+import './showTodos.scss'
 
 function ShowTodos (props) {
 
-    console.log('props', props.todos)
     const { todos, refreshList} = props
 
     const [showAll, setShowAll] = useState(true)
@@ -30,6 +30,7 @@ function ShowTodos (props) {
 
     const onEditTodo = (id) => {
         const data = {'completed': true}
+        debugger
         editTodo(id, data)
         refreshList()
     }
@@ -43,9 +44,11 @@ function ShowTodos (props) {
 
         return (
             <div >
-                <button onClick={onShowAll}>All Tasks</button>
-                <button onClick={onShowCompeted}>Completed Tasks</button>
-                <button onClick={onShowOpen}>Open Tasks</button>
+                <div className='button-container'>
+                    <button onClick={onShowAll}>All Tasks</button>
+                    <button onClick={onShowCompeted}>Completed Tasks</button>
+                    <button onClick={onShowOpen}>Open Tasks</button>
+                </div>
                 {todos && todos.data.length === 0 && <p>No Tasks Recored</p>}
                 {todos && showAll && todos.data.reverse().map(todo => (
                     todoTemplate(todo)

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import {createTodo, getTodos}from '../api'
+import {createTodo, getTodos} from '../api'
 import ShowTodos from './showTodos'
 
 function CreateTodo () {
@@ -9,7 +9,6 @@ function CreateTodo () {
     const refreshList = () => {
         getTodos()
         .then(response => {
-            console.log(response)
             setTodos(response)
     })}
 
@@ -24,7 +23,6 @@ function CreateTodo () {
 
     const onCreateTodo = (event) => {
         event.preventDefault()
-        console.log(task)
         createTodo(task)
             .then(() => {
                refreshList()
