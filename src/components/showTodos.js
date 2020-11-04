@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { editTodo } from '../api'
 import './showTodos.scss'
+import { Button, ListItem, List} from '@material-ui/core'
 
 function ShowTodos (props) {
 
@@ -36,29 +37,33 @@ function ShowTodos (props) {
     }
 
     const todoTemplate = (todo) => (
-        <div className="todo-item" key={todo._id}>
-            <div  style={{ textDecorationLine: todo.completed ? 'line-through' : 'none' }}>{todo.task}</div>
-            {!todo.completed && <button onClick={() => onEditTodo(todo._id)}>Complete</button>}
-        </div>
+        <ListItem className='list-item'>
+            <div className="todo-item" key={todo._id}>
+                <div  style={{ textDecorationLine: todo.completed ? 'line-through' : 'none' }}>{todo.task}</div>
+                {!todo.completed && <Button onClick={() => onEditTodo(todo._id)}>Complete</Button>}
+            </div>
+        </ListItem>
     )
 
         return (
             <div >
                 <div className='button-container'>
-                    <button onClick={onShowAll}>All Tasks</button>
-                    <button onClick={onShowCompeted}>Completed Tasks</button>
-                    <button onClick={onShowOpen}>Open Tasks</button>
+                    <Button onClick={onShowAll}>All Tasks</Button>
+                    <Button onClick={onShowCompeted}>Completed Tasks</Button>
+                    <Button onClick={onShowOpen}>Open Tasks</Button>
                 </div>
+                <List className='list'>
                 {todos && todos.data.length === 0 && <p>No Tasks Recored</p>}
-                {todos && showAll && todos.data.reverse().map(todo => (
+                {todos && showAll && todos.data.map(todo => (
                     todoTemplate(todo)
                 ))}
-                 {todos && showCompleted && todos.data.filter(todo => todo.completed === true).reverse().map(todo => (
+                 {todos && showCompleted && todos.data.filter(todo => todo.completed === true).map(todo => (
                     todoTemplate(todo)
                 ))}
-                 {todos && showOpen && todos.data.filter(todo => todo.completed === false).reverse().map(todo => (
+                 {todos && showOpen && todos.data.filter(todo => todo.completed === false).map(todo => (
                     todoTemplate(todo)
                 ))}
+                </List>
             </div>
         )
 }

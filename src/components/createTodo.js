@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import {createTodo, getTodos} from '../api'
 import ShowTodos from './showTodos'
+import { Button, Input} from '@material-ui/core'
+import './createTodo.scss'
 
 function CreateTodo () {
     const [task, setTask] = useState('')
@@ -35,15 +37,15 @@ function CreateTodo () {
 
         return (
             <div className='form'>
-                <input
+                <Input
                 name='task'
                 value={task}
                 type='text'
                 placeholder='Task'
                 onChange={handleChange}
                 />
-                <button onClick={onCreateTodo}>Submit</button>
-                <div><ShowTodos todos={todos} refreshList={refreshList}/></div>
+                <Button onClick={onCreateTodo}>Submit</Button>
+                <ShowTodos todos={todos} refreshList={refreshList}/>
             </div>
         )
 }

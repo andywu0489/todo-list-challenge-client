@@ -1,10 +1,22 @@
-.todo-item {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-}
-
 .button-container {
     display: flex;
     justify-content: center;
 }
+
+.list {
+    display: flex;
+    flex-direction: column-reverse;
+}
+.list-item {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: center;
+}
+
+.todo-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
