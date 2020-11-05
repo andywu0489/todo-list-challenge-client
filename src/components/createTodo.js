@@ -3,10 +3,12 @@ import {createTodo, getTodos} from '../api'
 import ShowTodos from './showTodos'
 import { Button, Input} from '@material-ui/core'
 import './createTodo.scss'
+import { setTask } from '../features/todos/todosSlice' 
+import { useDispatch, useSelector } from 'react-redux'
 
 function CreateTodo () {
-    const [task, setTask] = useState('')
     const [todos, setTodos] = useState('')
+    const dispatch = useDispatch()
 
     const refreshList = () => {
         getTodos()
@@ -19,19 +21,21 @@ function CreateTodo () {
     }, []
     )
     
-    const handleChange = event => setTask(
+    const handleChange = event => dispatch(setTask(
         event.target.value
-      )
+      ))
+
+    const task = useSelector(state => state.todo)
 
     const onCreateTodo = (event) => {
         event.preventDefault()
         createTodo(task)
             .then(() => {
                refreshList()
-                setTask('')
+                dispatch(setTask(''))
             })
             .catch(() => {
-                setTask('')
+                dispatch(setTask(''))
             })
     }
 
