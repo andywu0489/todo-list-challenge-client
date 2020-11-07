@@ -1,16 +1,17 @@
-import React from 'react'
+import React, { MouseEvent } from 'react'
 import { editTodo } from '../api'
 import './showTodos.scss'
-import { Button, ListItem, List} from '@material-ui/core'
+import { Button, Card} from '@material-ui/core'
 import { setFilter } from '../features/filters/filtersSlice' 
 import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from '../reducers/index'
 
-function ShowTodos (props) {
+function ShowTodos (props: any) {
 
     const { todos, refreshList} = props
     const dispatch = useDispatch()
 
-    const onShowAll = (event) => {
+    const onShowAll = (event: MouseEvent) => {
         dispatch(setFilter(
             {
                 filterValue: 'SHOW_ALL'
@@ -18,7 +19,7 @@ function ShowTodos (props) {
         ))
     }
 
-    const onShowCompeted = (event) => {
+    const onShowCompeted = (event: MouseEvent) => {
         dispatch(setFilter(
             {
                 filterValue: "SHOW_COMPLETED"
@@ -26,7 +27,7 @@ function ShowTodos (props) {
         ))
     }
 
-    const onShowOpen = (event) => {
+    const onShowOpen = (event: MouseEvent) => {
         dispatch(setFilter(
             {
                 filterValue: "SHOW_OPEN"
@@ -34,42 +35,44 @@ function ShowTodos (props) {
         ))
     }
 
-    const onEditTodo = (id) => {
+    const onEditTodo = (id: number) => {
         const data = {'completed': true}
         editTodo(id, data)
         refreshList()
     }
 
-    const filter = useSelector(state => state.filter)
+    const filter = useSelector((state: RootState) => state.filter)
 
-    const todoTemplate = (todo) => (
-        <ListItem className='list-item' key={todo._id}>
+    const todoTemplate = (todo: any) => (
+            <Card className='card' key={todo._id}>
             <div className="todo-item">
                 <div  style={{ textDecorationLine: todo.completed ? 'line-through' : 'none' }}>{todo.task}</div>
                 {!todo.completed && <Button onClick={() => onEditTodo(todo._id)}>Complete</Button>}
             </div>
-        </ListItem>
+            </Card>
     )
 
         return (
-            <div >
+            <div className='container'>
                 <div className='button-container'>
                     <Button onClick={onShowAll}>All Tasks</Button>
                     <Button onClick={onShowCompeted}>Completed Tasks</Button>
                     <Button onClick={onShowOpen}>Open Tasks</Button>
                 </div>
-                <List className='list'>
+                <div className='border'>
+                <div className='list'>
                 {todos && todos.data.length === 0 && <p>No Tasks Recored</p>}
-                {todos && filter.filterValue === 'SHOW_ALL' && todos.data.map(todo => (
+                {todos && filter.filterValue === 'SHOW_ALL' && todos.data.map((todo: any) => (
                     todoTemplate(todo)
                 ))}
-                 {todos && filter.filterValue === 'SHOW_COMPLETED' && todos.data.filter(todo => todo.completed === true).map(todo => (
+                 {todos && filter.filterValue === 'SHOW_COMPLETED' && todos.data.filter((todo: any) => todo.completed === true).map((todo: any)=> (
                     todoTemplate(todo)
                 ))}
-                 {todos && filter.filterValue === 'SHOW_OPEN' && todos.data.filter(todo => todo.completed === false).map(todo => (
+                 {todos && filter.filterValue === 'SHOW_OPEN' && todos.data.filter((todo: any) => todo.completed === false).map((todo: any) => (
                     todoTemplate(todo)
                 ))}
-                </List>
+                </div>
+                </div>
             </div>
         )
 }

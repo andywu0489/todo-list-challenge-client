@@ -5,7 +5,7 @@ import './App.scss'
 function App() {
   return (
     <div className="App">
-      <header>TODO LIST</header>
+      <header>TODO-LIST CHALLENGE</header>
       <div><CreateTodo/></div>
     </div>
   );

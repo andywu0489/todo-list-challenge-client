@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-export const createTodo = (todo) => {
+export const createTodo = (todo: string) => {
     return axios({
         url: 'http://localhost:4000/todos/',
         method: 'POST',
@@ -8,7 +8,7 @@ export const createTodo = (todo) => {
     })
 }
 
-export const editTodo = (id, data) => {
+export const editTodo = (id: number, data: object) => {
     return axios({
         url: `http://localhost:4000/todos/${id}`,
         method: 'PATCH',

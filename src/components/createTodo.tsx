@@ -1,13 +1,16 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, MouseEvent } from 'react'
 import {createTodo, getTodos} from '../api'
 import ShowTodos from './showTodos'
 import { Button, Input} from '@material-ui/core'
 import './createTodo.scss'
 import { setTask } from '../features/todos/todosSlice' 
 import { useDispatch, useSelector } from 'react-redux'
+import { AxiosResponse } from 'axios'
+import { RootState } from '../reducers/index'
+import './createTodo.scss'
 
 function CreateTodo () {
-    const [todos, setTodos] = useState('')
+    const [todos, setTodos] = useState<AxiosResponse | null>(null)
     const dispatch = useDispatch()
 
     const refreshList = () => {
@@ -21,13 +24,13 @@ function CreateTodo () {
     }, []
     )
     
-    const handleChange = event => dispatch(setTask(
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => dispatch(setTask(
         event.target.value
       ))
 
-    const task = useSelector(state => state.todo)
+    const task = useSelector((state: RootState) => state.todo)
 
-    const onCreateTodo = (event) => {
+    const onCreateTodo = (event: MouseEvent) => {
         event.preventDefault()
         createTodo(task)
             .then(() => {
@@ -40,6 +43,7 @@ function CreateTodo () {
     }
 
         return (
+            <div>
             <div className='form'>
                 <Input
                 name='task'
@@ -48,8 +52,11 @@ function CreateTodo () {
                 placeholder='Task'
                 onChange={handleChange}
                 />
-                <Button onClick={onCreateTodo}>Submit</Button>
+                <Button className='filter-button' onClick={onCreateTodo}>Submit</Button>
+            </div>  
+            <div>  
                 <ShowTodos todos={todos} refreshList={refreshList}/>
+            </div>
             </div>
         )
 }
