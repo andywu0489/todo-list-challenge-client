@@ -43,7 +43,13 @@ function ShowTodos (props: any) {
 
     const filter = useSelector((state: RootState) => state.filter)
 
-    const todoTemplate = (todo: any) => (
+    interface Todo {
+        _id: number; 
+        completed: boolean; 
+        task: string
+    }
+
+    const todoTemplate = (todo: Todo) => (
             <Card className='card' key={todo._id}>
             <div className="todo-item">
                 <div  style={{ textDecorationLine: todo.completed ? 'line-through' : 'none' }}>{todo.task}</div>
@@ -62,13 +68,13 @@ function ShowTodos (props: any) {
                 <div className='border'>
                 <div className='list'>
                 {todos && todos.data.length === 0 && <p>No Tasks Recored</p>}
-                {todos && filter.filterValue === 'SHOW_ALL' && todos.data.map((todo: any) => (
+                {todos && filter.filterValue === 'SHOW_ALL' && todos.data.map((todo: Todo) => (
                     todoTemplate(todo)
                 ))}
-                 {todos && filter.filterValue === 'SHOW_COMPLETED' && todos.data.filter((todo: any) => todo.completed === true).map((todo: any)=> (
+                 {todos && filter.filterValue === 'SHOW_COMPLETED' && todos.data.filter((todo: Todo) => todo.completed === true).map((todo: Todo)=> (
                     todoTemplate(todo)
                 ))}
-                 {todos && filter.filterValue === 'SHOW_OPEN' && todos.data.filter((todo: any) => todo.completed === false).map((todo: any) => (
+                 {todos && filter.filterValue === 'SHOW_OPEN' && todos.data.filter((todo: Todo) => todo.completed === false).map((todo: Todo) => (
                     todoTemplate(todo)
                 ))}
                 </div>
