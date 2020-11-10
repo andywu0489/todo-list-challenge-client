@@ -1,7 +1,7 @@
 import React, { useState, useEffect, MouseEvent } from 'react'
 import {createTodo, getTodos} from '../api'
 import ShowTodos from './showTodos'
-import { Button, Input} from '@material-ui/core'
+import { Button, TextField} from '@material-ui/core'
 import './createTodo.scss'
 import { setTask } from '../features/todos/todosSlice' 
 import { useDispatch, useSelector } from 'react-redux'
@@ -45,11 +45,12 @@ function CreateTodo () {
         return (
             <div>
             <div className='form'>
-                <Input
+                <TextField
                 name='task'
                 value={task}
                 type='text'
-                placeholder='Task'
+                variant="outlined"
+                label="Task"
                 onChange={handleChange}
                 />
                 <Button className='filter-button' onClick={onCreateTodo}>Submit</Button>
