@@ -1,44 +1,40 @@
 import React, { useState, useEffect, MouseEvent } from 'react'
-import {createTodo, getTodos} from '../api'
+import { createTodo } from '../api'
 import ShowTodos from './showTodos'
 import { Button, TextField} from '@material-ui/core'
 import './createTodo.scss'
-import { setTask } from '../features/todos/todosSlice' 
-import { useDispatch, useSelector } from 'react-redux'
-import { AxiosResponse } from 'axios'
-import { RootState } from '../reducers/index'
-import './createTodo.scss'
+import { getTodoList } from '../features/todos/todosSlice'
+import { useDispatch } from 'react-redux'
+
 
 function CreateTodo () {
-    const [todos, setTodos] = useState<AxiosResponse | null>(null)
+    const [task, setTask] = useState('')
+
     const dispatch = useDispatch()
 
     const refreshList = () => {
-        getTodos()
-        .then(response => {
-            setTodos(response)
-    })}
+        dispatch(getTodoList()) 
+    }
 
     useEffect(() => {
         refreshList()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []
     )
     
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => dispatch(setTask(
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => setTask(
         event.target.value
-      ))
-
-    const task = useSelector((state: RootState) => state.todo)
+    )
 
     const onCreateTodo = (event: MouseEvent) => {
         event.preventDefault()
         createTodo(task)
             .then(() => {
                refreshList()
-                dispatch(setTask(''))
+                setTask('')
             })
             .catch(() => {
-                dispatch(setTask(''))
+                setTask('')
             })
     }
 
@@ -56,7 +52,7 @@ function CreateTodo () {
                 <Button className='filter-button' onClick={onCreateTodo}>Submit</Button>
             </div>  
             <div>  
-                <ShowTodos todos={todos} refreshList={refreshList}/>
+                <ShowTodos refreshList={refreshList}/>
             </div>
             </div>
         )

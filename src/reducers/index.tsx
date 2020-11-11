@@ -4,7 +4,7 @@ import todoReducer from '../features/todos/todosSlice'
 
 const rootReducer = combineReducers({
   filter: filterReducer,
-  todo: todoReducer
+  todos: todoReducer
 })
 
 export type RootState = ReturnType<typeof rootReducer>

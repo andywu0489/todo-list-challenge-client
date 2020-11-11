@@ -8,7 +8,8 @@ import { RootState } from '../reducers/index'
 
 function ShowTodos (props: any) {
 
-    const { todos, refreshList} = props
+    const { refreshList } = props
+
     const dispatch = useDispatch()
 
     const onShowAll = (event: MouseEvent) => {
@@ -41,6 +42,7 @@ function ShowTodos (props: any) {
         refreshList()
     }
 
+    const todos: any = useSelector((state: RootState) => state.todos)
     const filter = useSelector((state: RootState) => state.filter)
 
     interface Todo {
@@ -67,14 +69,14 @@ function ShowTodos (props: any) {
                 </div>
                 <div className='border'>
                 <div className='list'>
-                {todos && todos.data.length === 0 && <p>No Tasks Recored</p>}
-                {todos && filter.filterValue === 'SHOW_ALL' && todos.data.map((todo: Todo) => (
+                {todos && todos.length === 0 && <p>No Tasks Recored</p>}
+                {todos && todos.length && filter.filterValue === 'SHOW_ALL' && todos.map((todo: Todo) => (
                     todoTemplate(todo)
                 ))}
-                 {todos && filter.filterValue === 'SHOW_COMPLETED' && todos.data.filter((todo: Todo) => todo.completed === true).map((todo: Todo)=> (
+                {todos && todos.length && filter.filterValue === 'SHOW_COMPLETED' && todos.filter((todo: Todo) => todo.completed === true).map((todo: Todo)=> (
                     todoTemplate(todo)
                 ))}
-                 {todos && filter.filterValue === 'SHOW_OPEN' && todos.data.filter((todo: Todo) => todo.completed === false).map((todo: Todo) => (
+                 {todos && todos.length && filter.filterValue === 'SHOW_OPEN' && todos.filter((todo: Todo) => todo.completed === false).map((todo: Todo) => (
                     todoTemplate(todo)
                 ))}
                 </div>
