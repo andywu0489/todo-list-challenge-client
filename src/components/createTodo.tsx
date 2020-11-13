@@ -1,5 +1,4 @@
 import React, { useState, useEffect, MouseEvent } from "react";
-// import { createTodo } from '../api'
 import ShowTodos from "./showTodos";
 import { Button, TextField } from "@material-ui/core";
 import "./createTodo.scss";

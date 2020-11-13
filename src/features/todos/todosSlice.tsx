@@ -23,6 +23,14 @@ export const completeTodo = createAsyncThunk(
   }
 );
 
+export const editTodoDesc = createAsyncThunk(
+  "todos/editTodoDesc",
+  async (obj: any) => {
+    const response = await editTodo(obj.id, obj.data);
+    return response.data;
+  }
+);
+
 interface getTodoList {
   fulfilled: any;
 }
@@ -35,19 +43,20 @@ const todosSlice = createSlice({
   reducers: {},
   extraReducers: {
     [getTodoList.fulfilled.toString()]: (state, action) => {
-      state.todos = state.todos.concat(action.payload);
+      state.todos = action.payload;
     },
     [setTodo.fulfilled.toString()]: (state, action) => {
       state.todos = state.todos.concat(action.payload);
     },
     [completeTodo.fulfilled.toString()]: (state, action) => {
       const { _id } = action.payload;
-      console.log("ACTION", action.payload);
-
       const todo: any = state.todos.find((todo: any) => todo._id === _id);
-
-      // console.log("TODO", todo);
       todo.completed = true;
+    },
+    [editTodoDesc.fulfilled.toString()]: (state, action) => {
+      const { _id, task } = action.payload;
+      const todo: any = state.todos.find((todo: any) => todo._id === _id);
+      todo.task = task;
     },
   },
 });

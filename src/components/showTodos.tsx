@@ -5,6 +5,7 @@ import { setFilter } from "../features/filters/filtersSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../reducers/index";
 import { completeTodo } from "../features/todos/todosSlice";
+import { Link } from "react-router-dom";
 
 function ShowTodos(props: any) {
   const dispatch = useDispatch();
@@ -40,8 +41,6 @@ function ShowTodos(props: any) {
   const todos: any = useSelector((state: RootState) => state.todos.todos);
   const filter = useSelector((state: RootState) => state.filter);
 
-  console.log("todos", todos);
-
   interface Todo {
     _id: number;
     completed: boolean;
@@ -58,6 +57,7 @@ function ShowTodos(props: any) {
         >
           {todo.task}
         </div>
+        <Link to={`todos/${todo._id}/edit`}>Edit</Link>
         {!todo.completed && (
           <Button onClick={() => onCompleteTodo(todo._id)}>Complete</Button>
         )}
