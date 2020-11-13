@@ -57,7 +57,9 @@ function ShowTodos(props: any) {
         >
           {todo.task}
         </div>
-        <Link to={`todos/${todo._id}/edit`}>Edit</Link>
+        <Button>
+          <Link to={`todos/${todo._id}/edit`}>Edit</Link>
+        </Button>
         {!todo.completed && (
           <Button onClick={() => onCompleteTodo(todo._id)}>Complete</Button>
         )}

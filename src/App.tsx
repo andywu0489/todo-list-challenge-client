@@ -3,12 +3,13 @@ import CreateTodo from "./components/createTodo";
 import "./App.scss";
 import { Route, Switch } from "react-router-dom";
 import EditTodo from "./components/editTodo";
+import Header from "./components/header";
 
 function App() {
   return (
     <main>
       <div className="App">
-        <header>TODO-LIST CHALLENGE</header>
+        <Header />
         {/* <div>
           <CreateTodo />
         </div> */}

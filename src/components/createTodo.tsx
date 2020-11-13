@@ -1,23 +1,14 @@
-import React, { useState, useEffect, MouseEvent } from "react";
+import React, { useState, MouseEvent } from "react";
 import ShowTodos from "./showTodos";
 import { Button, TextField } from "@material-ui/core";
 import "./createTodo.scss";
-import { getTodoList, setTodo } from "../features/todos/todosSlice";
+import { setTodo } from "../features/todos/todosSlice";
 import { useDispatch } from "react-redux";
 
 function CreateTodo() {
   const [task, setTask] = useState("");
 
   const dispatch = useDispatch();
-
-  const refreshList = () => {
-    dispatch(getTodoList());
-  };
-
-  useEffect(() => {
-    refreshList();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) =>
     setTask(event.target.value);
@@ -48,7 +39,7 @@ function CreateTodo() {
         </Button>
       </div>
       <div>
-        <ShowTodos refreshList={refreshList} />
+        <ShowTodos />
       </div>
     </div>
   );
