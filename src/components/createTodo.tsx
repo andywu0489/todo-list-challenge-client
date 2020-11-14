@@ -1,11 +1,22 @@
 import React, { useState, MouseEvent } from "react";
 import ShowTodos from "./showTodos";
 import { Button, TextField } from "@material-ui/core";
-import "./createTodo.scss";
 import { setTodo } from "../features/todos/todosSlice";
 import { useDispatch } from "react-redux";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    form: {
+      display: "flex",
+      justifyContent: "center",
+      paddingBottom: "20px",
+    },
+  })
+);
 
 function CreateTodo() {
+  const classes = useStyles();
   const [task, setTask] = useState("");
 
   const dispatch = useDispatch();
@@ -25,7 +36,7 @@ function CreateTodo() {
 
   return (
     <div>
-      <div className="form">
+      <div className={classes.form}>
         <TextField
           name="task"
           value={task}

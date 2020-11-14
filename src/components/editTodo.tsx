@@ -5,8 +5,33 @@ import Button from "@material-ui/core/Button";
 import { Redirect } from "react-router-dom";
 import TextField from "@material-ui/core/TextField";
 import { editTodoDesc } from "../features/todos/todosSlice";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    editForm: {
+      display: "flex",
+      justifyContent: "center",
+      flexDirection: "column",
+      border: "1px solid black",
+      width: "50vw",
+      height: "25vh",
+      padding: "5px 30px",
+      marginTop: "30px",
+    },
+    label: {
+      display: "flex",
+      justifyContent: "center",
+    },
+    container: {
+      display: "flex",
+      justifyContent: "center",
+    },
+  })
+);
 
 function EditTodo(props: any) {
+  const classes = useStyles();
   const [todo, setTodo] = useState({
     task: "",
   });
@@ -44,14 +69,19 @@ function EditTodo(props: any) {
     } catch {}
   };
 
+  const onCancel = (event: React.MouseEvent<HTMLElement>) => {
+    event.preventDefault();
+    setRedirect(true);
+  };
+
   if (redirect) {
     return <Redirect to={"/"} />;
   }
 
   return (
-    <div>
-      <div className="edit-form">
-        <h3> Edit Todo </h3>
+    <div className={classes.container}>
+      <div className={classes.editForm}>
+        <h3 className={classes.label}> Edit Todo </h3>
         <TextField
           label="Description"
           name="Todo"
@@ -62,6 +92,9 @@ function EditTodo(props: any) {
         />
         <Button className="edit-button" onClick={onEditTodo}>
           Submit
+        </Button>
+        <Button className="edit-button" onClick={onCancel}>
+          Cancel
         </Button>
       </div>
     </div>
