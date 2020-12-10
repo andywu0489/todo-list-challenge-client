@@ -7,6 +7,8 @@ import { completeTodo } from "../features/todos/todosSlice";
 import { Link } from "react-router-dom";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import Image from "../post-it.jpg";
+import LazyLoad from "react-lazyload";
+import Spinner from "./spinner";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -47,6 +49,9 @@ const useStyles = makeStyles((theme: Theme) =>
     task: {
       display: "flex",
       justifyContent: "center",
+    },
+    link: {
+      textDecoration: "none",
     },
   })
 );
@@ -93,27 +98,30 @@ function ShowTodos(props: any) {
   }
 
   const todoTemplate = (todo: Todo) => (
-    <Card className={classes.card} key={todo._id}>
-      <div className="todo-item">
-        <div
-          className={classes.task}
-          style={{
-            textDecorationLine: todo.completed ? "line-through" : "none",
-          }}
-        >
-          {todo.task}
+    <LazyLoad height={100} offset={[-100, 100]} placeholder={<Spinner />}>
+      <Card className={classes.card} key={todo._id}>
+        <div className="todo-item">
+          <div
+            className={classes.task}
+            style={{
+              textDecorationLine: todo.completed ? "line-through" : "none",
+            }}
+          >
+            {todo.task}
+          </div>
+          {!todo.completed && (
+            <Button>
+              <Link className={classes.link} to={`todos/${todo._id}/edit`}>
+                Edit
+              </Link>
+            </Button>
+          )}
+          {!todo.completed && (
+            <Button onClick={() => onCompleteTodo(todo._id)}>Complete</Button>
+          )}
         </div>
-
-        {!todo.completed && (
-          <Button>
-            <Link to={`todos/${todo._id}/edit`}>Edit</Link>
-          </Button>
-        )}
-        {!todo.completed && (
-          <Button onClick={() => onCompleteTodo(todo._id)}>Complete</Button>
-        )}
-      </div>
-    </Card>
+      </Card>
+    </LazyLoad>
   );
 
   return (
